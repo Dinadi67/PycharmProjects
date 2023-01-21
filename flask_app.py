@@ -16,7 +16,9 @@ app = Flask(__name__)
 
 # On charge les données
 data_train = pd.read_csv("train.csv", low_memory=False)
-data_test = pd.read_csv("test.csv", low_memory=False)
+data_test = pd.read_csv("application_test.csv", low_memory=False)
+
+
 
 # On crée deux variables en attente qui deviendront
 # des variables globales après l'initialisation de l'API.
