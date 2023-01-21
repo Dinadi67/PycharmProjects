@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 # On charge les données
 data_train = pd.read_csv("train.csv")
-data_test = pd.read_csv("application_test.csv")
+data_test = pd.read_csv('test.zip',compression='zip')
 
 
 
