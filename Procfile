@@ -1,1 +1,1 @@
-web: node --optimize_for_size --max-old-space-size=8192 flask_app.js
+web: node --optimize_for_size --max-old-space-size=16384 flask_app.js
