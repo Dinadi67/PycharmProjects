@@ -1,1 +1,1 @@
-web: node --max-old-space-size=8192 flask_app.js
+web: gunicorn flask_app:server

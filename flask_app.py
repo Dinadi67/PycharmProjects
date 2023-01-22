@@ -29,7 +29,7 @@ test_b = None
 model = None
 
 # On crée la liste des ID clients qui nous servira dans l'API
-id_client = data_test["SK_ID_CURR"].values
+id_client = data_test["SK_ID_CURR"][:100].values
 id_client = pd.DataFrame(id_client)
 
 
