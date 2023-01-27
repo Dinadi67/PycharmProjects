@@ -1,1 +1,1 @@
-web: python classifier/flask_app.py
+web: gunicorn flask_app : server
