@@ -18,7 +18,7 @@ import plotly.graph_objects as go
 app = Dash(__name__)
 server = app.server
 
-URL_API = "http://127.0.0.1:5000/"
+URL_API = "https://dashappextractdata.herokuapp.com/"
 
 
 # Récuperer la Liste des clients
