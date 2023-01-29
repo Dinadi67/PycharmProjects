@@ -11,7 +11,8 @@ import dash
 import json
 import plotly.express as px
 import requests
-
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import pandas as pd
 import plotly.graph_objects as go
 
