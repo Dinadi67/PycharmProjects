@@ -11,8 +11,6 @@ import dash
 import json
 import plotly.express as px
 import requests
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import pandas as pd
 import plotly.graph_objects as go
 
@@ -28,7 +26,7 @@ URL_API = "https://dashappextractdata.herokuapp.com/"
 def load_selectbox():
 
     # Requête permettant de récupérer la liste des ID clients
-    data_json = requests.get(URL_API + "load_data",verify=False)
+    data_json = requests.get(URL_API + "load_data")
     data = data_json.json()
 
     # Récupération des valeurs sans les [] de la réponse
@@ -47,7 +45,7 @@ lst_id = load_selectbox()
 
 def load_features():
 
-    features = requests.get(URL_API + "load_features",verify=False)
+    features = requests.get(URL_API + "load_features")
     dataf = features.json()
     return dataf
 
@@ -61,7 +59,7 @@ fig = px.bar(lst_features, x="Feature", y="Value",color ="Value")
 
 # 1/On affiche les informations descriptives de l'ID client choisi
 
-infos_clients = requests.get(URL_API + "infos_client",params={"id_client":"100001"},verify=False)
+infos_clients = requests.get(URL_API + "infos_client",params={"id_client":"100001"})
 infos_clients =json.loads(infos_clients.content.decode("utf-8"))
 
 infos_clients = pd.DataFrame.from_dict([infos_clients])
@@ -75,7 +73,7 @@ basic_table = dash_table.DataTable(infos_clients.to_dict('records'), [{"name": i
 
 # 2/Graphe : pie-chart(prédiction) de l'ID client choisi
 
-prediction = requests.get(URL_API + "predict", params={"id_client":"100001"},verify=False)
+prediction = requests.get(URL_API + "predict", params={"id_client":"100001"})
 prediction = json.loads(prediction.content.decode("utf-8"))
 
 
@@ -84,7 +82,7 @@ prediction = json.loads(prediction.content.decode("utf-8"))
 
 # les plus proches de l'ID client choisi
 
-voisins = requests.get(URL_API + "load_voisins", params={"id_client":"100001"},verify=False)
+voisins = requests.get(URL_API + "load_voisins", params={"id_client":"100001"})
 voisins = json.loads(voisins.content.decode("utf-8"))
  
 # On transforme le dictionnaire en dataframe
@@ -108,7 +106,7 @@ voisins_table = dash_table.DataTable(voisins.to_dict('records'), [{"name": j, "i
 
 # 4/ Locales features
 
-local_feat = requests.get(URL_API + "load_localfeat", params={"id_client":"100001"},verify=False)
+local_feat = requests.get(URL_API + "load_localfeat", params={"id_client":"100001"})
 features_loc = json.loads(local_feat.content.decode("utf-8"))
 features_loc = pd.DataFrame.from_dict(features_loc).T
 
@@ -135,7 +133,7 @@ app.layout = html.Div(children=[
     Output('table-dropdown','data'),Input('dropdown','value'))
 def load_infos_client(value):
 
-    infos_clients = requests.get(URL_API + "infos_client",params={"id_client":value},verify=False)
+    infos_clients = requests.get(URL_API + "infos_client",params={"id_client":value})
     infos_clients = json.loads(infos_clients.content.decode("utf-8"))
 
     # On transforme le dictionnaire en dataframe
@@ -150,7 +148,7 @@ def load_prediction(value):
     # Requête permettant de récupérer la prédiction
     # de faillite du client sélectionné
 
-    prediction = requests.get(URL_API + "predict", params={"id_client":value},verify=False)
+    prediction = requests.get(URL_API + "predict", params={"id_client":value})
     prediction = json.loads(prediction.content.decode("utf-8"))
     labels = ['Solvable','Non solvable']
     values = prediction
@@ -165,7 +163,7 @@ def load_voisins(value):
     # Requête permettant de récupérer les 10 dossiers
     # les plus proches de l'ID client choisi
 
-    voisins = requests.get(URL_API + "load_voisins", params={"id_client":value},verify=False)
+    voisins = requests.get(URL_API + "load_voisins", params={"id_client":value})
 
     # On transforme la réponse en dictionnaire python
     voisins = json.loads(voisins.content.decode("utf-8"))
@@ -195,7 +193,7 @@ def local_features(value):
     
     # Requête permettant de récupérer les features 
 
-    local_feat = requests.get(URL_API + "load_localfeat", params={"id_client":value},verify=False)
+    local_feat = requests.get(URL_API + "load_localfeat", params={"id_client":value})
     features_loc = json.loads(local_feat.content.decode("utf-8"))
     features_loc = pd.DataFrame.from_dict(features_loc).T
     return features_loc.to_dict('records')
